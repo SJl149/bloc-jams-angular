@@ -75,7 +75,7 @@
         
         /**
         * @function SongPlayer.play
-        * @desc Plays the song clicked
+        * @desc Gets song and plays it
         * @param {Object} song
         */ 
         SongPlayer.play = function(song) {
@@ -92,7 +92,7 @@
         
         /**
         * @function SongPlayer.pause
-        * @desc Pauses the song clicked
+        * @desc Gets song and pauses it
         * @param {Object} song
         */ 
         SongPlayer.pause = function(song) {
