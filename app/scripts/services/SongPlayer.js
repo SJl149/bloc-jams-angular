@@ -48,6 +48,16 @@
         };
         
         /**
+        * @function stopSong
+        * @desc Stops current song and sets song.playing to null
+        * @param {Object} song
+        */
+        var stopSong = function(song) {
+            currentBuzzObject.stop();
+            song.playing = null;
+        };
+        
+        /**
         * @function getSongIndex
         * @desc Gets the current song index
         * @param {Object} song
@@ -58,8 +68,8 @@
         };
         
         /**
-        * @desc Flag for currently playing song
-        * @type {Boolean} 
+        * @desc Currently playing song
+        * @type {Object} 
         */
         SongPlayer.currentSong = null;
         
@@ -93,15 +103,31 @@
         
         /**
         * @function SongPlayer.previous
-        * @desc Finds the previous song and plays it but stops if no previous song
+        * @desc Finds the previous song and plays it but stops if at the beginning of the album
         */
         SongPlayer.previous = function() {
             var currentSongIndex = getSongIndex(SongPlayer.currentSong);
             currentSongIndex--;
             
             if (currentSongIndex < 0) {
-                currentBuzzObject.stop();
-                SongPlayer.currentSong.playing = null;
+                stopSong(song);
+            } else {
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
+        };
+        
+        /**
+        * @function SongPlayer.next
+        * @desc Finds the next song and plays it but stops if at the end of the album
+        */
+        SongPlayer.next = function() {
+            var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+            currentSongIndex++;
+            
+            if (currentSongIndex > currentAlbum.songs.length - 1) {
+                stopSong(song);
             } else {
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
