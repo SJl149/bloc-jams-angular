@@ -37,6 +37,9 @@
             currentBuzzObject.bind('timeupdate', function() {
                 $rootScope.$apply(function() {
                     SongPlayer.currentTime = currentBuzzObject.getTime();
+                    if (SongPlayer.currentTime >= SongPlayer.currentSong.duration) {
+                        SongPlayer.next();
+                    }
                 });
             });
             
@@ -89,7 +92,7 @@
         * @desc Volume setting
         * @type {Number}
         */
-        SongPlayer.volume = 10;
+        SongPlayer.volume = 20;
         
         /**
         * @function SongPlayer.play
@@ -101,9 +104,11 @@
             if (SongPlayer.currentSong !== song) {
                 setSong(song);                
                 playSong(song);
+                currentBuzzObject.setVolume(SongPlayer.volume);
             } else if (SongPlayer.currentSong === song) {
                 if (currentBuzzObject.isPaused()) {
                     playSong(song);
+                    currentBuzzObject.setVolume(SongPlayer.volume);
                 }
             }
         };
@@ -133,6 +138,7 @@
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
                 playSong(song);
+                currentBuzzObject.setVolume(SongPlayer.volume);
             }
         };
         
@@ -150,6 +156,7 @@
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
                 playSong(song);
+                currentBuzzObject.setVolume(SongPlayer.volume);
             }
         };
         
@@ -172,6 +179,7 @@
         SongPlayer.setVolume = function(vol) {
             if (currentBuzzObject) {
                 currentBuzzObject.setVolume(vol);
+                SongPlayer.volume = vol;
             }
         };
         
